@@ -1,6 +1,23 @@
-# Repository Guidelines
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Repository
 - Repo: https://github.com/clawdbot/clawdbot
 - GitHub issues/comments/PR comments: use literal multiline strings or `-F - <<'EOF'` (or $'...') for real newlines; never embed "\\n".
+
+## High-Level Architecture
+
+Clawdbot is a personal AI assistant with a local-first Gateway that serves as the control plane. The Gateway handles:
+- **Multi-channel messaging**: WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Google Chat, and extension channels (Microsoft Teams, Matrix, Zalo, BlueBubbles)
+- **Pi agent runtime**: RPC-mode agent with tool streaming, sessions, and workspaces
+- **Native companion apps**: macOS menu bar app, iOS/Android nodes with Voice Wake and Talk Mode
+- **Browser automation**: Playwright-based browser tools with Chrome profile management
+- **Cron/scheduling**: Job scheduling with isolated agent execution
+
+Key data flows:
+1. **Inbound messages** → Channel adapter → Session router → Pi agent → Model provider → Response delivery
+2. **Gateway WS API** → Control UI / CLI / Native apps for session management, config, and tooling
 
 ## Project Structure & Module Organization
 - Source code: `src/` (CLI wiring in `src/cli`, commands in `src/commands`, web provider in `src/provider-web.ts`, infra in `src/infra`, media pipeline in `src/media`).
